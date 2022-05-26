@@ -1,5 +1,5 @@
 {
-  "name": "react-boilerplate",
+  "name": "greenlight-client",
   "version": "0.1.0",
   "description": "an React app build from zero configration.",
   "main": "index.js",
@@ -20,13 +20,13 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/islamghany/react-boilerplate.git"
+    "url": "git+https://github.com/islamghany/greenlight-client.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/islamghany/react-boilerplate/issues"
+    "url": "https://github.com/islamghany/greenlight-client/issues"
   },
-  "homepage": "https://github.com/islamghany/react-boilerplate#readme",
+  "homepage": "https://github.com/islamghany/greenlight-client#readme",
   "devDependencies": {
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.17.10",
@@ -77,5 +77,8 @@
     "react-dom": "^18.1.0",
     "react-hot-loader": "^4.13.0",
     "webpack-dev-server": "^4.9.0"
+  },
+  "directories": {
+    "doc": "docs"
   }
 }

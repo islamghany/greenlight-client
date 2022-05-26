@@ -1,5 +1,5 @@
-# React Boilerplate
+# Greenlight Client
 
-an React app build from zero configration.
+the Front-end app for the greenlight api
 
-[javascript version](https://github.com/islamghany/react-boilerplate)
+[Greenlight backend](https://github.com/islamghany/greenlight)
