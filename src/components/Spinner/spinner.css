@@ -1,0 +1,26 @@
+.spinner {
+  svg {
+    animation: spin 500ms linear infinite;
+  }
+  &-lg {
+    svg {
+      @apply w-16 h-16;
+    }
+  }
+  &-md {
+    svg {
+      @apply w-8 h-8;
+    }
+  }
+  &-sm {
+    svg {
+      @apply w-6 h-6;
+    }
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
