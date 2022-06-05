@@ -1,7 +1,9 @@
 import { DefaultApi } from '@/types/generatedClient/api';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { BASE_URL } from '@/constants';
-const axiosInstance = axios.create();
+const axiosInstance = axios.create({
+  withCredentials: true,
+});
 
 export const api = (axios: AxiosInstance) => {
   return {

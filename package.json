@@ -72,12 +72,14 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-typescript": "^7.16.7",
+    "@headlessui/react": "^1.6.4",
     "@heroicons/react": "^1.0.6",
     "clsx": "^1.1.1",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hot-loader": "^4.13.0",
+    "react-router-dom": "^6.3.0",
     "webpack-dev-server": "^4.9.0"
   },
   "directories": {

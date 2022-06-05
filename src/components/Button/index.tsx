@@ -1,15 +1,35 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-
 import './button.css';
 import Spinner from '../Spinner';
-interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+import { Link } from 'react-router-dom';
+
+interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'xs' | 'md' | 'lg' | 'xl';
   bg?: 'primary' | 'secondary';
   icon?: React.ReactElement;
   loading?: boolean;
 }
 
+interface ButtonText extends React.HtmlHTMLAttributes<HTMLButtonElement> {
+  to: string;
+}
+export const ButtonText: FC<ButtonText> = ({
+  children,
+  to,
+  className,
+  ...rest
+}) => {
+  const classes = clsx(
+    'font-medium text-sm text-indigo-600 hover:text-indigo-500',
+    className
+  );
+  return (
+    <Link to={to} className={classes} {...ResizeObserverEntry}>
+      {children}
+    </Link>
+  );
+};
 const Button: FC<ButtonProps> = ({
   bg = 'primary',
   size = 'md',
