@@ -5,16 +5,19 @@ import Button, { ButtonText } from '@/components/Button';
 import { useForm } from 'react-hook-form';
 import { validateEmail, validatePassword } from '@/helpers/validation';
 import { AuthenticateUser } from '@/types';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { signInUser } from '@/store/slices/userSlice';
 
 const SigninForm = () => {
+  const userStatus = useAppSelector((state) => state.user.fetchUserStatus);
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<AuthenticateUser>();
   const onSubmit = handleSubmit((e) => {
-    console.log(e.password, e.email);
+    dispatch(signInUser(e));
   });
   return (
     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -45,7 +48,11 @@ const SigninForm = () => {
         <div className="flex justify-end">
           <ButtonText to="/forget-password">Forgot your password?</ButtonText>
         </div>
-        <Button type="submit" className="flex w-full justify-center">
+        <Button
+          type="submit"
+          loading={userStatus === 'PENDING'}
+          className="flex w-full justify-center"
+        >
           Submit
         </Button>
       </Form>

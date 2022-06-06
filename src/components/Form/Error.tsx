@@ -1,15 +1,32 @@
 import React from 'react';
-//import { motion, AnimatePresence } from "framer-motion";
+import { Disclosure, Transition } from '@headlessui/react';
 
 interface ErrorProps {
   error?: string;
 }
-
-// const closed = {height:0, opacity:0};
-// const open={height:"auto", opacity:1};
-// const transition={duration:0.2, damping:300};
 const Error: React.FC<ErrorProps> = ({ error }) => {
-  if (!error) return null;
-  return <p className="text-rose-500 text-xs mt-1">{error}</p>;
+  return (
+    <Disclosure>
+      {({}) => {
+        return (
+          <>
+            <Transition
+              show={error ? true : false}
+              enter="transition-all  duration-300 ease-out"
+              enterFrom="h-0 opacity-0"
+              enterTo="h-full opacity-100"
+              leave="transition-all duration-300 ease-out"
+              leaveFrom="h-full opacity-100"
+              leaveTo="h-0 opacity-0"
+            >
+              <Disclosure.Panel static>
+                <p className="text-rose-500   text-xs mt-1">{error}</p>
+              </Disclosure.Panel>
+            </Transition>
+          </>
+        );
+      }}
+    </Disclosure>
+  );
 };
 export default Error;

@@ -162,7 +162,7 @@ paths:
       tags:
         - movies
       description: update Movie
-      operationId: updateUser
+      operationId: updateMovie
       parameters:
         - name: id
           in: path
@@ -226,10 +226,30 @@ paths:
         - movies_auth:
           - 'movies:write'     
   /users:
+    get:
+      tags:
+        - users
+      description: Retreive the current user data
+      operationId: getCurrentUser
+      responses:
+        200:
+          description: user created
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  user: 
+                    $ref: "#/components/schemas/User"
+        500:
+          $ref: '#/components/responses/ServerError'
+        401:
+          $ref: "#/components/responses/AuthenticationRequiredResponse"       
     post:
       tags:
           - users
       description: Regisster user
+      operationId: registerUser
       requestBody:
         content:
           application/json:
@@ -258,6 +278,7 @@ paths:
       tags:
         - users
       description: active user after a register
+      operationId: activateUser
       requestBody:
         content:
           application/json:
@@ -289,6 +310,7 @@ paths:
       tags:
         - tokens
       description: User login
+      operationId: signinUser
       requestBody:
         content:
           application/json:
@@ -309,6 +331,27 @@ paths:
           $ref: "#/components/responses/FailedValidationResponse"
         401:
           $ref: "#/components/responses/AuthenticationRequiredResponse"  
+  /users/signout:
+    post:
+      tags:
+        - users
+      description: signout user
+      operationId: signoutUser
+      responses:
+        200:
+          description: user has been signed out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        500:
+          $ref: '#/components/responses/ServerError'
+        400:
+          $ref: "#/components/responses/BadRequestResponse" 
+        422:
+          $ref: "#/components/responses/FailedValidationResponse"
+        401:
+          $ref: "#/components/responses/AuthenticationRequiredResponse"      
 components:
   schemas:
     Movies:
@@ -410,6 +453,12 @@ components:
           type: string    
         Expiry:
           type: string 
+    SuccessResponse:
+      description: success operation
+      type: object
+      properties:
+        messgae: 
+          type: string     
   responses:
     HealthCheckResponse:
       description: Success request
