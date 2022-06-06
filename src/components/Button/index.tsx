@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import './button.css';
 import Spinner from '../Spinner';
@@ -9,12 +9,13 @@ interface ButtonProps extends React.HtmlHTMLAttributes<HTMLButtonElement> {
   bg?: 'primary' | 'secondary';
   icon?: React.ReactElement;
   loading?: boolean;
+  type?: 'button' | 'submit' | 'reset' | undefined;
 }
 
 interface ButtonText extends React.HtmlHTMLAttributes<HTMLButtonElement> {
   to: string;
 }
-export const ButtonText: FC<ButtonText> = ({
+export const ButtonText: React.FC<ButtonText> = ({
   children,
   to,
   className,
@@ -30,13 +31,14 @@ export const ButtonText: FC<ButtonText> = ({
     </Link>
   );
 };
-const Button: FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   bg = 'primary',
   size = 'md',
   children,
   icon,
   loading = false,
   className,
+  type = 'submit',
   ...rest
 }) => {
   const classes = clsx(
@@ -47,7 +49,7 @@ const Button: FC<ButtonProps> = ({
     className
   );
   return (
-    <button disabled={loading} type="button" className={classes} {...rest}>
+    <button disabled={loading} type={type} className={classes} {...rest}>
       {loading && (
         <div className="btn-spinner__container">
           <Spinner size="sm" />
