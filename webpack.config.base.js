@@ -6,8 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: './src/index.tsx',
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'app.bundle.js',
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
     plugins: [new TsconfigPathsPlugin()],
@@ -51,7 +51,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      title: 'Production',
+      template: 'public/index.html',
+      favicon: 'public/favicon.ico',
     }),
     new MiniCssExtractPlugin({
       linkType: 'text/css',
