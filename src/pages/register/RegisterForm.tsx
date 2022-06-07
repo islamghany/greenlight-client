@@ -3,32 +3,62 @@ import { FormBody } from '@/components/Form';
 import { Input } from '@/components/Form';
 import Button, { ButtonText } from '@/components/Button';
 import { useForm } from 'react-hook-form';
-import { validateEmail, validatePassword } from '@/helpers/validation';
-import { AuthenticateUser } from '@/types';
+import axios from 'axios';
+import {
+  validateEmail,
+  validatePassword,
+  validateName,
+} from '@/helpers/validation';
+import { CreateUser } from '@/types';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { signInUser } from '@/store/slices/userSlice';
+import { registerUser } from '@/store/slices/userSlice';
 import Alert from '@/components/Alert';
+import api from '@/api';
 
-const SigninForm = () => {
-  const userStatus = useAppSelector((state) => state.user.fetchUserStatus);
-  const userError = useAppSelector((state) => state.user.userError);
+const Register = () => {
+  const registerStatus = useAppSelector((state) => state.user.registerStatus);
+  const registerUserError = useAppSelector(
+    (state) => state.user.registerUserError
+  );
   const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthenticateUser>();
+  } = useForm<CreateUser>();
   const onSubmit = handleSubmit((e) => {
-    dispatch(signInUser(e));
+    dispatch(registerUser(e));
   });
+  if (registerStatus === 'SUCCESS') {
+    return (
+      <Alert title="Success Registeration" type="success">
+        congratulations, your account has been established successfully but not
+        yet activated, to activate your account{' '}
+        <span className="font-bold">
+          Follow the instructions that have been sent to your email.
+        </span>
+      </Alert>
+    );
+  }
   return (
     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      {userError && (
+      {registerUserError && (
         <Alert title="Error" type="error">
-          {userError}
+          {registerUserError}
         </Alert>
       )}
       <FormBody onSubmit={onSubmit}>
+        <Input
+          label="Full name"
+          type="text"
+          name="name"
+          register={register('name', {
+            required: true,
+            minLength: 8,
+            maxLength: 72,
+          })}
+          error={validateName(errors)}
+        />
         <Input
           label="Email address"
           type="text"
@@ -49,15 +79,11 @@ const SigninForm = () => {
             minLength: 8,
             maxLength: 72,
           })}
-          required
           error={validatePassword(errors)}
         />
-        <div className="flex justify-end">
-          <ButtonText to="/forget-password">Forgot your password?</ButtonText>
-        </div>
         <Button
           type="submit"
-          loading={userStatus === 'PENDING'}
+          loading={registerStatus === 'PENDING'}
           className="flex w-full justify-center"
         >
           Submit
@@ -67,4 +93,4 @@ const SigninForm = () => {
   );
 };
 
-export default SigninForm;
+export default Register;

@@ -16,5 +16,14 @@ export const validatePassword = (errors: Errors) =>
       ? errors.password.message
       : errors.password?.type === 'required'
       ? 'Password can not be empty'
-      : 'Passwrod must be at least 8 and ot be more than 72 chars long'
+      : 'Password must be at least 8 and ot be more than 72 chars long'
+    : undefined;
+
+export const validateName = (errors: Errors) =>
+  errors?.name
+    ? errors.name?.message
+      ? errors.name.message
+      : errors.name?.type === 'required'
+      ? 'Name can not be empty'
+      : 'Name must be at least 8 and ot be more than 72 chars long'
     : undefined;

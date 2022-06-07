@@ -1,0 +1,55 @@
+
+.alert{
+    &__container{
+        @apply rounded-md bg-yellow-50 p-4 my-3;
+        &.warning{
+            @apply bg-yellow-50;
+            .alert__icon{
+                @apply text-yellow-400;
+            }
+            .alert__title{
+                @apply text-yellow-800;
+            }
+            .alert__description{
+                @apply text-yellow-700;;
+            }
+        }
+        &.error{
+            @apply bg-red-50;
+            .alert__icon{
+                @apply text-red-400;
+            }
+            .alert__title{
+                @apply text-red-800;
+            }
+            .alert__description{
+                @apply text-red-700;
+            }
+        }
+        &.info{
+            @apply bg-blue-50;
+            .alert__icon{
+                @apply text-blue-400;
+            }
+            .alert__title{
+                @apply text-blue-800;
+            }
+            .alert__description{
+                @apply text-blue-700;
+            }
+        }
+        &.success{
+            @apply bg-green-50;
+            .alert__icon{
+                @apply text-green-400;
+            }
+            .alert__title{
+                @apply text-green-800;
+            }
+            .alert__description{
+                @apply text-green-700;
+            }
+        }
+    }
+    
+}

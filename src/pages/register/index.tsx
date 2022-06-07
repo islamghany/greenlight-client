@@ -1,9 +1,20 @@
 import React from 'react';
-const Register = () => {
+import { ButtonText } from '@/components/Button';
+import Register from './RegisterForm';
+import { FormContainer, FormHead } from '@/components/Form';
+
+const SignIn = () => {
   return (
-    <div className="min-h-screen  flex justify-center items-center">
-      Register
-    </div>
+    <FormContainer>
+      <FormHead
+        title="Make new Account"
+        to="/signin"
+        navText="Alreay have an account?"
+      />
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <Register />
+      </div>
+    </FormContainer>
   );
 };
-export default Register;
+export default SignIn;
