@@ -45,11 +45,11 @@ const routes: RouteObject[] = [
       },
       {
         path: 'forget-password',
-        element: <ForgetPassword />,
+        element: <PasswordRecovery />,
       },
       {
         path: 'recovery',
-        element: <PasswordRecovery />,
+        element: <ForgetPassword />,
       },
     ],
   },

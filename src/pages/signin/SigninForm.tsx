@@ -5,27 +5,34 @@ import Button, { ButtonText } from '@/components/Button';
 import { useForm } from 'react-hook-form';
 import { validateEmail, validatePassword } from '@/helpers/validation';
 import { AuthenticateUser } from '@/types';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { signInUser } from '@/store/slices/userSlice';
+import { useAppDispatch } from '@/store';
 import Alert from '@/components/Alert';
+import { useApi } from '@/hooks/useApi';
+import api from '@/api';
+import { setUser } from '@/store/slices/userSlice';
 
 const SigninForm = () => {
-  const userStatus = useAppSelector((state) => state.user.fetchUserStatus);
-  const userError = useAppSelector((state) => state.user.userError);
+  const { data, error, isError, isPending, isSuccess, exec } = useApi(
+    (e: AuthenticateUser) => api.tokensApi.signinUser(e).then((res) => res.data)
+  );
+
   const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AuthenticateUser>();
-  const onSubmit = handleSubmit((e) => {
-    dispatch(signInUser(e));
+  const onSubmit = handleSubmit(async (e) => {
+    const { data } = await exec(e);
+    if (data) {
+      dispatch(setUser(data));
+    }
   });
   return (
     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      {userError && (
+      {isError && error && (
         <Alert title="Error" type="error">
-          {userError}
+          {error}
         </Alert>
       )}
       <FormBody onSubmit={onSubmit}>
@@ -57,7 +64,7 @@ const SigninForm = () => {
         </div>
         <Button
           type="submit"
-          loading={userStatus === 'PENDING'}
+          loading={isPending}
           className="flex w-full justify-center"
         >
           Submit

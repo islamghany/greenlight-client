@@ -167,6 +167,19 @@ export interface DeleteMovie200Response {
     'messgae'?: string;
 }
 /**
+ * email string inside an object
+ * @export
+ * @interface EmailObject
+ */
+export interface EmailObject {
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailObject
+     */
+    'email': string;
+}
+/**
  * Server Error
  * @export
  * @interface ErrorResponse
@@ -336,6 +349,12 @@ export interface User {
      * @memberof User
      */
     'name'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'activated'?: boolean;
     /**
      * 
      * @type {string}
@@ -858,6 +877,39 @@ export class MoviesApi extends BaseAPI {
 export const TokensApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * create reset password token
+         * @param {EmailObject} [emailObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createResetPasswordToken: async (emailObject?: EmailObject, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/tokens/reset-password-token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(emailObject, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * User login
          * @param {AuthenticateUser} [authenticateUser] 
          * @param {*} [options] Override http request option.
@@ -901,6 +953,16 @@ export const TokensApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = TokensApiAxiosParamCreator(configuration)
     return {
         /**
+         * create reset password token
+         * @param {EmailObject} [emailObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createResetPasswordToken(emailObject?: EmailObject, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createResetPasswordToken(emailObject, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * User login
          * @param {AuthenticateUser} [authenticateUser] 
          * @param {*} [options] Override http request option.
@@ -921,6 +983,15 @@ export const TokensApiFactory = function (configuration?: Configuration, basePat
     const localVarFp = TokensApiFp(configuration)
     return {
         /**
+         * create reset password token
+         * @param {EmailObject} [emailObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createResetPasswordToken(emailObject?: EmailObject, options?: any): AxiosPromise<SuccessResponse> {
+            return localVarFp.createResetPasswordToken(emailObject, options).then((request) => request(axios, basePath));
+        },
+        /**
          * User login
          * @param {AuthenticateUser} [authenticateUser] 
          * @param {*} [options] Override http request option.
@@ -939,6 +1010,17 @@ export const TokensApiFactory = function (configuration?: Configuration, basePat
  * @extends {BaseAPI}
  */
 export class TokensApi extends BaseAPI {
+    /**
+     * create reset password token
+     * @param {EmailObject} [emailObject] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TokensApi
+     */
+    public createResetPasswordToken(emailObject?: EmailObject, options?: AxiosRequestConfig) {
+        return TokensApiFp(this.configuration).createResetPasswordToken(emailObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * User login
      * @param {AuthenticateUser} [authenticateUser] 

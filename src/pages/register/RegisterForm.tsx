@@ -11,25 +11,32 @@ import {
 } from '@/helpers/validation';
 import { CreateUser } from '@/types';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { registerUser } from '@/store/slices/userSlice';
+import { setUser } from '@/store/slices/userSlice';
 import Alert from '@/components/Alert';
 import api from '@/api';
+import { useApi } from '@/hooks/useApi';
 
 const Register = () => {
-  const registerStatus = useAppSelector((state) => state.user.registerStatus);
-  const registerUserError = useAppSelector(
-    (state) => state.user.registerUserError
-  );
   const dispatch = useAppDispatch();
+  const { data, error, isError, isPending, isSuccess, exec } = useApi(
+    (e: CreateUser) =>
+      api.usersApi.registerUser(e).then((res) => res.data.user),
+    {
+      onSuccess: (data) => {
+        dispatch(setUser(data!));
+      },
+    }
+  );
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateUser>();
   const onSubmit = handleSubmit((e) => {
-    dispatch(registerUser(e));
+    exec(e);
   });
-  if (registerStatus === 'SUCCESS') {
+  if (isSuccess) {
     return (
       <Alert title="Success Registeration" type="success">
         congratulations, your account has been established successfully but not
@@ -42,9 +49,9 @@ const Register = () => {
   }
   return (
     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      {registerUserError && (
+      {error && (
         <Alert title="Error" type="error">
-          {registerUserError}
+          {error}
         </Alert>
       )}
       <FormBody onSubmit={onSubmit}>
@@ -83,7 +90,7 @@ const Register = () => {
         />
         <Button
           type="submit"
-          loading={registerStatus === 'PENDING'}
+          loading={isPending}
           className="flex w-full justify-center"
         >
           Submit
