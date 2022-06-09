@@ -9,6 +9,8 @@ import SignIn from '@/pages/signin';
 import Register from '@/pages/register';
 import ForgetPassword from '@/pages/forgetPassword';
 import PasswordRecovery from '@/pages/passwordRecovery';
+import ActivateAccount from '@/pages/activateAccount';
+
 const routes: RouteObject[] = [
   {
     element: <HomeLayout />,
@@ -50,6 +52,10 @@ const routes: RouteObject[] = [
       {
         path: 'recovery',
         element: <ForgetPassword />,
+      },
+      {
+        path: 'activate-account/:token',
+        element: <ActivateAccount />,
       },
     ],
   },

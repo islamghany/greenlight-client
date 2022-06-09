@@ -257,6 +257,43 @@ export interface HealthCheck500Response {
     'error'?: string;
 }
 /**
+ * the meta about a number of items
+ * @export
+ * @interface MetaData
+ */
+export interface MetaData {
+    /**
+     * 
+     * @type {number}
+     * @memberof MetaData
+     */
+    'current_page'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MetaData
+     */
+    'page_size'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MetaData
+     */
+    'first_page'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MetaData
+     */
+    'last_page'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MetaData
+     */
+    'total_reocrds'?: number;
+}
+/**
  * model containg the movie schema
  * @export
  * @interface Movie
@@ -298,6 +335,37 @@ export interface Movie {
      * @memberof Movie
      */
     'version'?: string;
+    /**
+     * the number of the views to this movie
+     * @type {number}
+     * @memberof Movie
+     */
+    'count'?: number;
+    /**
+     * the number of likes on this movie
+     * @type {number}
+     * @memberof Movie
+     */
+    'likes'?: number;
+}
+/**
+ * a list of movies and metadata about it
+ * @export
+ * @interface MoviesResponse
+ */
+export interface MoviesResponse {
+    /**
+     * 
+     * @type {MetaData}
+     * @memberof MoviesResponse
+     */
+    'metadata'?: MetaData;
+    /**
+     * 
+     * @type {Array<Movie>}
+     * @memberof MoviesResponse
+     */
+    'movies'?: Array<Movie>;
 }
 /**
  * success operation
@@ -713,7 +781,7 @@ export const MoviesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Movie>>> {
+        async getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MoviesResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllMovies(title, geners, page, pageSize, sort, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -776,7 +844,7 @@ export const MoviesApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: any): AxiosPromise<Array<Movie>> {
+        getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: any): AxiosPromise<MoviesResponse> {
             return localVarFp.getAllMovies(title, geners, page, pageSize, sort, options).then((request) => request(axios, basePath));
         },
         /**
