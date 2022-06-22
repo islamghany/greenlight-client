@@ -208,6 +208,32 @@ export interface GetCurrentUser200Response {
 /**
  * 
  * @export
+ * @interface GetMostLikedMovies200Response
+ */
+export interface GetMostLikedMovies200Response {
+    /**
+     * 
+     * @type {Array<Movie>}
+     * @memberof GetMostLikedMovies200Response
+     */
+    'movies'?: Array<Movie>;
+}
+/**
+ * 
+ * @export
+ * @interface GetMovieLikes200Response
+ */
+export interface GetMovieLikes200Response {
+    /**
+     * 
+     * @type {Like}
+     * @memberof GetMovieLikes200Response
+     */
+    'likes'?: Like;
+}
+/**
+ * 
+ * @export
  * @interface HealthCheck200Response
  */
 export interface HealthCheck200Response {
@@ -255,6 +281,44 @@ export interface HealthCheck500Response {
      * @memberof HealthCheck500Response
      */
     'error'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface Like
+ */
+export interface Like {
+    /**
+     * 
+     * @type {number}
+     * @memberof Like
+     */
+    'movie_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Like
+     */
+    'isCurrentUserLiked'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Like
+     */
+    'likes'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface LikeMovieRequest
+ */
+export interface LikeMovieRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof LikeMovieRequest
+     */
+    'movie_id'?: number;
 }
 /**
  * the meta about a number of items
@@ -347,6 +411,12 @@ export interface Movie {
      * @memberof Movie
      */
     'likes'?: number;
+    /**
+     * the id of the user that has created that movie
+     * @type {number}
+     * @memberof Movie
+     */
+    'user_id'?: number;
 }
 /**
  * a list of movies and metadata about it
@@ -447,6 +517,12 @@ export interface User {
      * @memberof User
      */
     'created_at'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof User
+     */
+    'isCurrentUser'?: boolean;
 }
 
 /**
@@ -539,6 +615,233 @@ export class DefaultApi extends BaseAPI {
      */
     public healthCheck(options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).healthCheck(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * LikesApi - axios parameter creator
+ * @export
+ */
+export const LikesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * get the likes of the specific movie
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMovieLikes: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getMovieLikes', 'id', id)
+            const localVarPath = `/likes/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * add a like of the specific movie
+         * @param {LikeMovieRequest} [likeMovieRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        likeMovie: async (likeMovieRequest?: LikeMovieRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/likes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(likeMovieRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * remove a like of the specific movie
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unlikeMovie: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('unlikeMovie', 'id', id)
+            const localVarPath = `/likes/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * LikesApi - functional programming interface
+ * @export
+ */
+export const LikesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LikesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * get the likes of the specific movie
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMovieLikes(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMovieLikes200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMovieLikes(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * add a like of the specific movie
+         * @param {LikeMovieRequest} [likeMovieRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async likeMovie(likeMovieRequest?: LikeMovieRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.likeMovie(likeMovieRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * remove a like of the specific movie
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async unlikeMovie(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.unlikeMovie(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * LikesApi - factory interface
+ * @export
+ */
+export const LikesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LikesApiFp(configuration)
+    return {
+        /**
+         * get the likes of the specific movie
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMovieLikes(id: number, options?: any): AxiosPromise<GetMovieLikes200Response> {
+            return localVarFp.getMovieLikes(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * add a like of the specific movie
+         * @param {LikeMovieRequest} [likeMovieRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        likeMovie(likeMovieRequest?: LikeMovieRequest, options?: any): AxiosPromise<SuccessResponse> {
+            return localVarFp.likeMovie(likeMovieRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * remove a like of the specific movie
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unlikeMovie(id: number, options?: any): AxiosPromise<SuccessResponse> {
+            return localVarFp.unlikeMovie(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * LikesApi - object-oriented interface
+ * @export
+ * @class LikesApi
+ * @extends {BaseAPI}
+ */
+export class LikesApi extends BaseAPI {
+    /**
+     * get the likes of the specific movie
+     * @param {number} id the id of the movie
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public getMovieLikes(id: number, options?: AxiosRequestConfig) {
+        return LikesApiFp(this.configuration).getMovieLikes(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * add a like of the specific movie
+     * @param {LikeMovieRequest} [likeMovieRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public likeMovie(likeMovieRequest?: LikeMovieRequest, options?: AxiosRequestConfig) {
+        return LikesApiFp(this.configuration).likeMovie(likeMovieRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * remove a like of the specific movie
+     * @param {number} id the id of the movie
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public unlikeMovie(id: number, options?: AxiosRequestConfig) {
+        return LikesApiFp(this.configuration).unlikeMovie(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -672,6 +975,64 @@ export const MoviesApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * get the most liked movies
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMostLikedMovies: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/movies/most-likes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'OPTIONS', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get the most viewd movies
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMostViewedMovies: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/movies/most-views`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'OPTIONS', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * obtain individual movie
          * @param {number} id the id of the movie
          * @param {*} [options] Override http request option.
@@ -786,12 +1147,30 @@ export const MoviesApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * get the most liked movies
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMostLikedMovies(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMostLikedMovies200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMostLikedMovies(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * get the most viewd movies
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMostViewedMovies(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMostLikedMovies200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMostViewedMovies(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * obtain individual movie
          * @param {number} id the id of the movie
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getMovie(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Movie>> {
+        async getMovie(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMovie201Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getMovie(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -802,7 +1181,7 @@ export const MoviesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateMovie(id: number, createMovieRequest?: CreateMovieRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Movie>> {
+        async updateMovie(id: number, createMovieRequest?: CreateMovieRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMovie201Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateMovie(id, createMovieRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -848,12 +1227,28 @@ export const MoviesApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.getAllMovies(title, geners, page, pageSize, sort, options).then((request) => request(axios, basePath));
         },
         /**
+         * get the most liked movies
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMostLikedMovies(options?: any): AxiosPromise<GetMostLikedMovies200Response> {
+            return localVarFp.getMostLikedMovies(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get the most viewd movies
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMostViewedMovies(options?: any): AxiosPromise<GetMostLikedMovies200Response> {
+            return localVarFp.getMostViewedMovies(options).then((request) => request(axios, basePath));
+        },
+        /**
          * obtain individual movie
          * @param {number} id the id of the movie
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMovie(id: number, options?: any): AxiosPromise<Movie> {
+        getMovie(id: number, options?: any): AxiosPromise<CreateMovie201Response> {
             return localVarFp.getMovie(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -863,7 +1258,7 @@ export const MoviesApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateMovie(id: number, createMovieRequest?: CreateMovieRequest, options?: any): AxiosPromise<Movie> {
+        updateMovie(id: number, createMovieRequest?: CreateMovieRequest, options?: any): AxiosPromise<CreateMovie201Response> {
             return localVarFp.updateMovie(id, createMovieRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -911,6 +1306,26 @@ export class MoviesApi extends BaseAPI {
      */
     public getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: AxiosRequestConfig) {
         return MoviesApiFp(this.configuration).getAllMovies(title, geners, page, pageSize, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get the most liked movies
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MoviesApi
+     */
+    public getMostLikedMovies(options?: AxiosRequestConfig) {
+        return MoviesApiFp(this.configuration).getMostLikedMovies(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get the most viewd movies
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MoviesApi
+     */
+    public getMostViewedMovies(options?: AxiosRequestConfig) {
+        return MoviesApiFp(this.configuration).getMostViewedMovies(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -979,11 +1394,11 @@ export const TokensApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * User login
-         * @param {AuthenticateUser} [authenticateUser] 
+         * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        signinUser: async (authenticateUser?: AuthenticateUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        signinUser: async (getCurrentUser200Response?: GetCurrentUser200Response, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tokens/authentication`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1003,7 +1418,7 @@ export const TokensApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(authenticateUser, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(getCurrentUser200Response, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1032,12 +1447,12 @@ export const TokensApiFp = function(configuration?: Configuration) {
         },
         /**
          * User login
-         * @param {AuthenticateUser} [authenticateUser] 
+         * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async signinUser(authenticateUser?: AuthenticateUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.signinUser(authenticateUser, options);
+        async signinUser(getCurrentUser200Response?: GetCurrentUser200Response, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.signinUser(getCurrentUser200Response, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1061,12 +1476,12 @@ export const TokensApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * User login
-         * @param {AuthenticateUser} [authenticateUser] 
+         * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        signinUser(authenticateUser?: AuthenticateUser, options?: any): AxiosPromise<User> {
-            return localVarFp.signinUser(authenticateUser, options).then((request) => request(axios, basePath));
+        signinUser(getCurrentUser200Response?: GetCurrentUser200Response, options?: any): AxiosPromise<User> {
+            return localVarFp.signinUser(getCurrentUser200Response, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1091,13 +1506,13 @@ export class TokensApi extends BaseAPI {
 
     /**
      * User login
-     * @param {AuthenticateUser} [authenticateUser] 
+     * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokensApi
      */
-    public signinUser(authenticateUser?: AuthenticateUser, options?: AxiosRequestConfig) {
-        return TokensApiFp(this.configuration).signinUser(authenticateUser, options).then((request) => request(this.axios, this.basePath));
+    public signinUser(getCurrentUser200Response?: GetCurrentUser200Response, options?: AxiosRequestConfig) {
+        return TokensApiFp(this.configuration).signinUser(getCurrentUser200Response, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1148,6 +1563,39 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          */
         getCurrentUser: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retreive a user with id
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUser: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getUser', 'id', id)
+            const localVarPath = `/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1264,6 +1712,16 @@ export const UsersApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Retreive a user with id
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUser(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCurrentUser200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Regisster user
          * @param {CreateUser} createUser Created user object
          * @param {*} [options] Override http request option.
@@ -1308,6 +1766,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          */
         getCurrentUser(options?: any): AxiosPromise<GetCurrentUser200Response> {
             return localVarFp.getCurrentUser(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retreive a user with id
+         * @param {number} id the id of the movie
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUser(id: number, options?: any): AxiosPromise<GetCurrentUser200Response> {
+            return localVarFp.getUser(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Regisster user
@@ -1355,6 +1822,17 @@ export class UsersApi extends BaseAPI {
      */
     public getCurrentUser(options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).getCurrentUser(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retreive a user with id
+     * @param {number} id the id of the movie
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public getUser(id: number, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUser(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
