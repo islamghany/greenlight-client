@@ -1,9 +1,4 @@
 import {
-  AuthenticateUser,
-  EmailObject,
-} from './../../types/generatedClient/api';
-import { RootState } from '@/store';
-import {
   createSlice,
   PayloadAction,
   createSelector,
@@ -11,7 +6,6 @@ import {
 } from '@reduxjs/toolkit';
 import { ApiStatus, User, CreateUser } from '@/types';
 import api from '@/api';
-import { errorNorm } from '@/helpers';
 
 export const initialState: {
   user: User | undefined;
@@ -34,7 +28,7 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
-    removeUser: (state, action) => {
+    removeUser: (state, _) => {
       state.user = undefined;
     },
   },

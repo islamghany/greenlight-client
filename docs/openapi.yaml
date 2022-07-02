@@ -388,10 +388,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                user: 
-                  $ref: "#/components/schemas/User"  
+              $ref: "#/components/schemas/AuthenticateUser"  
       responses:
         201:
           description: user activated

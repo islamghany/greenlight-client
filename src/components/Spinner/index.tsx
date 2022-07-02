@@ -4,9 +4,16 @@ import clxs from 'clsx';
 interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+  show?: boolean;
 }
-const Spinner: React.FC<SpinnerProps> = ({ size = 'md', className }) => {
+const Spinner: React.FC<SpinnerProps> = ({
+  size = 'md',
+  className,
+  show = true,
+}) => {
   const classes = clxs('spinner', 'spinner-' + size, className);
+
+  if (!show) return null;
   return (
     <div className={classes}>
       <svg

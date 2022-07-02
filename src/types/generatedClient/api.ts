@@ -1394,11 +1394,11 @@ export const TokensApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * User login
-         * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
+         * @param {AuthenticateUser} [authenticateUser] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        signinUser: async (getCurrentUser200Response?: GetCurrentUser200Response, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        signinUser: async (authenticateUser?: AuthenticateUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tokens/authentication`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1418,7 +1418,7 @@ export const TokensApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(getCurrentUser200Response, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(authenticateUser, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1447,12 +1447,12 @@ export const TokensApiFp = function(configuration?: Configuration) {
         },
         /**
          * User login
-         * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
+         * @param {AuthenticateUser} [authenticateUser] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async signinUser(getCurrentUser200Response?: GetCurrentUser200Response, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.signinUser(getCurrentUser200Response, options);
+        async signinUser(authenticateUser?: AuthenticateUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.signinUser(authenticateUser, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1476,12 +1476,12 @@ export const TokensApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * User login
-         * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
+         * @param {AuthenticateUser} [authenticateUser] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        signinUser(getCurrentUser200Response?: GetCurrentUser200Response, options?: any): AxiosPromise<User> {
-            return localVarFp.signinUser(getCurrentUser200Response, options).then((request) => request(axios, basePath));
+        signinUser(authenticateUser?: AuthenticateUser, options?: any): AxiosPromise<User> {
+            return localVarFp.signinUser(authenticateUser, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1506,13 +1506,13 @@ export class TokensApi extends BaseAPI {
 
     /**
      * User login
-     * @param {GetCurrentUser200Response} [getCurrentUser200Response] 
+     * @param {AuthenticateUser} [authenticateUser] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokensApi
      */
-    public signinUser(getCurrentUser200Response?: GetCurrentUser200Response, options?: AxiosRequestConfig) {
-        return TokensApiFp(this.configuration).signinUser(getCurrentUser200Response, options).then((request) => request(this.axios, this.basePath));
+    public signinUser(authenticateUser?: AuthenticateUser, options?: AxiosRequestConfig) {
+        return TokensApiFp(this.configuration).signinUser(authenticateUser, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

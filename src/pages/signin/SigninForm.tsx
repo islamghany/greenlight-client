@@ -12,8 +12,8 @@ import api from '@/api';
 import { setUser } from '@/store/slices/userSlice';
 
 const SigninForm = () => {
-  const { data, error, isError, isPending, isSuccess, exec } = useApi(
-    (e: AuthenticateUser) => api.tokensApi.signinUser(e).then((res) => res.data)
+  const { error, isError, isPending, exec } = useApi((e: AuthenticateUser) =>
+    api.tokensApi.signinUser(e).then((res) => res.data)
   );
 
   const dispatch = useAppDispatch();
