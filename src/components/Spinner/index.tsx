@@ -5,13 +5,20 @@ interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   show?: boolean;
+  center?: boolean;
 }
 const Spinner: React.FC<SpinnerProps> = ({
   size = 'md',
   className,
   show = true,
+  center = false,
 }) => {
-  const classes = clxs('spinner', 'spinner-' + size, className);
+  const classes = clxs(
+    'spinner',
+    'spinner-' + size,
+    center && 'spinner-center',
+    className
+  );
 
   if (!show) return null;
   return (

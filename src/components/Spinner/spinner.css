@@ -2,6 +2,9 @@
   svg {
     animation: spin 500ms linear infinite;
   }
+  &-center{
+    @apply flex justify-center items-start w-full h-full;
+    }
   &-lg {
     svg {
       @apply w-16 h-16;

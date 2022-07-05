@@ -3,6 +3,7 @@ import {
   MoviesApi,
   UsersApi,
   TokensApi,
+  LikesApi,
 } from '@/types/generatedClient/api';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { BASE_URL } from '@/constants';
@@ -29,4 +30,5 @@ export default {
   moviesApi: new MoviesApi(undefined, BASE_URL, axiosInstance),
   usersApi: new UsersApi(undefined, BASE_URL, axiosInstance),
   tokensApi: new TokensApi(undefined, BASE_URL, axiosInstance),
+  likesApi: new LikesApi(undefined, BASE_URL, axiosInstance),
 };

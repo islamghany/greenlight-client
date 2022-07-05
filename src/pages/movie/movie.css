@@ -1,0 +1,14 @@
+.like{
+    &-container{
+        @apply px-4 py-2 rounded-full cursor-pointer hover:bg-gray-100 transition bg-gray-50 space-x-2 flex items-center;
+        &-active{
+            @apply bg-indigo-500 hover:bg-indigo-600;
+            span{
+                @apply text-white !important;
+            }
+            svg{
+                @apply text-white !important;
+            }
+        }
+    }
+}

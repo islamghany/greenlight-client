@@ -76,7 +76,7 @@ export interface CreateMovie {
      * @type {Array<string>}
      * @memberof CreateMovie
      */
-    'geners'?: Array<string>;
+    'genres'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -120,7 +120,7 @@ export interface CreateMovieRequest {
      * @type {Array<string>}
      * @memberof CreateMovieRequest
      */
-    'geners'?: Array<string>;
+    'genres'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -374,6 +374,12 @@ export interface Movie {
      * @type {string}
      * @memberof Movie
      */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Movie
+     */
     'created_at'?: string;
     /**
      * the runtime of the movie is represented in the database as a normal year but we manipulated it before and after converting it to json to make it a nice string
@@ -386,7 +392,7 @@ export interface Movie {
      * @type {Array<string>}
      * @memberof Movie
      */
-    'geners': Array<string>;
+    'genres': Array<string>;
     /**
      * 
      * @type {number}
@@ -923,14 +929,14 @@ export const MoviesApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * obtain movies (filtering)
          * @param {string} [title] the title of the movie
-         * @param {Array<string>} [geners] an array containg the geners of the movie
+         * @param {Array<string>} [genres] an array containg the genres of the movie
          * @param {number} [page] how many pages
          * @param {number} [pageSize] how many movies in one page
          * @param {'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime'} [sort] sort the returned array movie depend on these params
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllMovies: async (title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllMovies: async (title?: string, genres?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/movies`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -947,8 +953,8 @@ export const MoviesApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['title'] = title;
             }
 
-            if (geners) {
-                localVarQueryParameter['geners'] = geners;
+            if (genres) {
+                localVarQueryParameter['genres'] = genres;
             }
 
             if (page !== undefined) {
@@ -1135,15 +1141,15 @@ export const MoviesApiFp = function(configuration?: Configuration) {
         /**
          * obtain movies (filtering)
          * @param {string} [title] the title of the movie
-         * @param {Array<string>} [geners] an array containg the geners of the movie
+         * @param {Array<string>} [genres] an array containg the genres of the movie
          * @param {number} [page] how many pages
          * @param {number} [pageSize] how many movies in one page
          * @param {'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime'} [sort] sort the returned array movie depend on these params
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MoviesResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllMovies(title, geners, page, pageSize, sort, options);
+        async getAllMovies(title?: string, genres?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MoviesResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllMovies(title, genres, page, pageSize, sort, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1216,15 +1222,15 @@ export const MoviesApiFactory = function (configuration?: Configuration, basePat
         /**
          * obtain movies (filtering)
          * @param {string} [title] the title of the movie
-         * @param {Array<string>} [geners] an array containg the geners of the movie
+         * @param {Array<string>} [genres] an array containg the genres of the movie
          * @param {number} [page] how many pages
          * @param {number} [pageSize] how many movies in one page
          * @param {'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime'} [sort] sort the returned array movie depend on these params
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: any): AxiosPromise<MoviesResponse> {
-            return localVarFp.getAllMovies(title, geners, page, pageSize, sort, options).then((request) => request(axios, basePath));
+        getAllMovies(title?: string, genres?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: any): AxiosPromise<MoviesResponse> {
+            return localVarFp.getAllMovies(title, genres, page, pageSize, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * get the most liked movies
@@ -1296,7 +1302,7 @@ export class MoviesApi extends BaseAPI {
     /**
      * obtain movies (filtering)
      * @param {string} [title] the title of the movie
-     * @param {Array<string>} [geners] an array containg the geners of the movie
+     * @param {Array<string>} [genres] an array containg the genres of the movie
      * @param {number} [page] how many pages
      * @param {number} [pageSize] how many movies in one page
      * @param {'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime'} [sort] sort the returned array movie depend on these params
@@ -1304,8 +1310,8 @@ export class MoviesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof MoviesApi
      */
-    public getAllMovies(title?: string, geners?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: AxiosRequestConfig) {
-        return MoviesApiFp(this.configuration).getAllMovies(title, geners, page, pageSize, sort, options).then((request) => request(this.axios, this.basePath));
+    public getAllMovies(title?: string, genres?: Array<string>, page?: number, pageSize?: number, sort?: 'title' | '-title' | 'id' | '-id - year' | '-year - runtime' | '-runtime', options?: AxiosRequestConfig) {
+        return MoviesApiFp(this.configuration).getAllMovies(title, genres, page, pageSize, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
