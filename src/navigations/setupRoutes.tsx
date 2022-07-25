@@ -10,6 +10,7 @@ import Register from '@/pages/register';
 import ForgetPassword from '@/pages/forgetPassword';
 import PasswordRecovery from '@/pages/passwordRecovery';
 import ActivateAccount from '@/pages/activateAccount';
+import Permission from '@/components/Permission/Permission';
 
 const routes: RouteObject[] = [
   {
@@ -39,7 +40,15 @@ const routes: RouteObject[] = [
     children: [
       {
         path: 'signin',
-        element: <SignIn />,
+        element: (
+          <Permission
+            roles={['logged-out']}
+            type="all-of"
+            noAccess={<Navigate to="/" />}
+          >
+            <SignIn />
+          </Permission>
+        ),
       },
       {
         path: 'register',

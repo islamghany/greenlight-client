@@ -1457,7 +1457,7 @@ export const TokensApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async signinUser(authenticateUser?: AuthenticateUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async signinUser(authenticateUser?: AuthenticateUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCurrentUser200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.signinUser(authenticateUser, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1486,7 +1486,7 @@ export const TokensApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        signinUser(authenticateUser?: AuthenticateUser, options?: any): AxiosPromise<User> {
+        signinUser(authenticateUser?: AuthenticateUser, options?: any): AxiosPromise<GetCurrentUser200Response> {
             return localVarFp.signinUser(authenticateUser, options).then((request) => request(axios, basePath));
         },
     };

@@ -13,7 +13,7 @@ import { setUser } from '@/store/slices/userSlice';
 
 const SigninForm = () => {
   const { error, isError, isPending, exec } = useApi((e: AuthenticateUser) =>
-    api.tokensApi.signinUser(e).then((res) => res.data)
+    api.tokensApi.signinUser(e).then((res) => res.data.user)
   );
 
   const dispatch = useAppDispatch();
