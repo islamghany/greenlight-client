@@ -5,6 +5,9 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Input } from '../Form';
 import Button from '../Button';
 import { Link } from 'react-router-dom';
+import Permission from '../Permission/Permission';
+import { useAppDispatch } from '@/store';
+import { signoutUser } from '@/store/slices/userSlice';
 
 const user = {
   name: 'Chelsea Hagon',
@@ -28,7 +31,22 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
+const LoggedOutButtons = () => {
+  return (
+    <>
+      <Link to="/signin">
+        <Button className="ml-8" bg="secondary">
+          Login
+        </Button>
+      </Link>
+      <Link to="/register">
+        <Button className="ml-2">Signup</Button>
+      </Link>
+    </>
+  );
+};
 export const HomeNavbar = () => {
+  const dispatch = useAppDispatch();
   return (
     <>
       {/* When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars */}
@@ -85,105 +103,133 @@ export const HomeNavbar = () => {
                 </div>
                 <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
                   {/* Profile dropdown */}
-                  <Menu as="div" className="flex-shrink-0 relative ml-5">
-                    <div>
-                      <Menu.Button className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src={user.imageUrl}
-                          alt=""
-                        />
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
-                        {userNavigation.map((item) => (
-                          <Menu.Item key={item.name}>
-                            {({ active }) => (
-                              <a
-                                href={item.href}
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'block py-2 px-4 text-sm text-gray-700'
-                                )}
-                              >
-                                {item.name}
-                              </a>
-                            )}
-                          </Menu.Item>
-                        ))}
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                  <Link to="/signin">
-                    <Button className="ml-8" bg="secondary">
-                      Login
-                    </Button>
-                  </Link>
-                  <Link to="/register">
-                    <Button className="ml-2">Signup</Button>
-                  </Link>
+                  <Permission
+                    roles={['logged-out']}
+                    noAccess={({ user, hasAccess }) => {
+                      if (user && user.id)
+                        return (
+                          <Menu
+                            as="div"
+                            className="flex-shrink-0 relative ml-5"
+                          >
+                            <div>
+                              <Menu.Button className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <span className="sr-only">Open user menu</span>
+                                <div className="h-10 w-10 rounded-full text-white flex items-center justify-center font-bold capitalize text-xl  bg-gray-400">
+                                  {user?.name?.[0]}
+                                </div>
+                              </Menu.Button>
+                            </div>
+                            <Transition
+                              as={Fragment}
+                              enter="transition ease-out duration-100"
+                              enterFrom="transform opacity-0 scale-95"
+                              enterTo="transform opacity-100 scale-100"
+                              leave="transition ease-in duration-75"
+                              leaveFrom="transform opacity-100 scale-100"
+                              leaveTo="transform opacity-0 scale-95"
+                            >
+                              <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
+                                <Menu.Item key="Your Profile">
+                                  {({ active }) => (
+                                    <Link
+                                      to={`profile/${user?.id}`}
+                                      className={classNames(
+                                        active ? 'bg-gray-100' : '',
+                                        'block py-2 px-4 text-sm text-gray-700'
+                                      )}
+                                    >
+                                      Your Profile
+                                    </Link>
+                                  )}
+                                </Menu.Item>
+                                <Menu.Item key="sign out">
+                                  <a
+                                    onClick={() => {
+                                      dispatch(signoutUser());
+                                    }}
+                                    className="block cursor-pointer py-2 px-4 text-sm text-gray-700"
+                                  >
+                                    Sign out
+                                  </a>
+                                </Menu.Item>
+                              </Menu.Items>
+                            </Transition>
+                          </Menu>
+                        );
+                      return <LoggedOutButtons />;
+                    }}
+                  >
+                    <LoggedOutButtons />
+                  </Permission>
                 </div>
               </div>
             </div>
 
             <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
-              <div className="max-w-3xl mx-auto px-2 pt-2 pb-3 space-y-1 sm:px-4">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
-                    className={classNames(
-                      item.current
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'hover:bg-gray-50',
-                      'block rounded-md py-2 px-3 text-base font-medium'
-                    )}
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-              <div className="border-t border-gray-200 pt-4 pb-3">
-                <div className="max-w-3xl mx-auto px-4 flex items-center sm:px-6">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src={user.imageUrl}
-                      alt=""
-                    />
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium text-gray-800">
-                      {user.name}
-                    </div>
-                    <div className="text-sm font-medium text-gray-500">
-                      {user.email}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-3 max-w-3xl mx-auto px-2 space-y-1 sm:px-4">
-                  {userNavigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="block rounded-md py-2 px-3 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
+              <Permission
+                roles={['logged-out']}
+                noAccess={({ user }) => {
+                  if (user && user.id)
+                    return (
+                      <>
+                        <div className="max-w-3xl mx-auto px-2 pt-2 pb-3 space-y-1 sm:px-4">
+                          {navigation.map((item) => (
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              aria-current={item.current ? 'page' : undefined}
+                              className={classNames(
+                                item.current
+                                  ? 'bg-gray-100 text-gray-900'
+                                  : 'hover:bg-gray-50',
+                                'block rounded-md py-2 px-3 text-base font-medium'
+                              )}
+                            >
+                              {item.name}
+                            </a>
+                          ))}
+                        </div>
+                        <div className="border-t border-gray-200 pt-4 pb-3">
+                          <div className="max-w-3xl mx-auto px-4 flex items-center sm:px-6">
+                            <div className="flex-shrink-0">
+                              <div className="h-10 w-10 rounded-full text-white flex items-center justify-center font-bold capitalize text-xl  bg-gray-400">
+                                {user?.name?.[0]}
+                              </div>
+                            </div>
+                            <div className="ml-3">
+                              <div className="text-base font-medium text-gray-800">
+                                {user.name}
+                              </div>
+                              <div className="text-sm font-medium text-gray-500">
+                                {user.email}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3 max-w-3xl mx-auto px-2 space-y-1 sm:px-4">
+                            <Link
+                              to={`profile/${user?.id}`}
+                              className="block rounded-md py-2 px-3 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                            >
+                              Your Profile
+                            </Link>
+                            <a
+                              onClick={() => {
+                                dispatch(signoutUser());
+                              }}
+                              className="block rounded-md py-2 px-3 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                            >
+                              Sign out
+                            </a>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  return <LoggedOutButtons />;
+                }}
+              >
+                <LoggedOutButtons />
+              </Permission>
             </Popover.Panel>
           </>
         )}

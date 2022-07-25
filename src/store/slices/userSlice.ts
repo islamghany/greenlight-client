@@ -20,7 +20,9 @@ export const initialState: {
 export const fetchCurrentUser = createAsyncThunk('users/getCurrentUser', () =>
   api.usersApi.getCurrentUser().then((res) => res.data.user)
 );
-
+export const signoutUser = createAsyncThunk('users/signoutUser', () =>
+  api.usersApi.signoutUser().then((res) => res.data.messgae)
+);
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -38,10 +40,19 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
       state.fetchUserStatus = 'SUCCESS';
-
       state.user = action.payload;
     });
     builder.addCase(fetchCurrentUser.rejected, (state, action) => {
+      state.fetchUserStatus = 'ERROR';
+    });
+    builder.addCase(signoutUser.pending, (state, action) => {
+      state.fetchUserStatus = 'PENDING';
+    });
+    builder.addCase(signoutUser.fulfilled, (state, action) => {
+      state.fetchUserStatus = 'SUCCESS';
+      state.user = undefined;
+    });
+    builder.addCase(signoutUser.rejected, (state, action) => {
       state.fetchUserStatus = 'ERROR';
     });
   },

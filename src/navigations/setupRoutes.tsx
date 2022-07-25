@@ -11,6 +11,7 @@ import ForgetPassword from '@/pages/forgetPassword';
 import PasswordRecovery from '@/pages/passwordRecovery';
 import ActivateAccount from '@/pages/activateAccount';
 import Permission from '@/components/Permission/Permission';
+import User from '@/pages/user';
 
 const routes: RouteObject[] = [
   {
@@ -32,6 +33,10 @@ const routes: RouteObject[] = [
             element: <Movie />,
           },
         ],
+      },
+      {
+        path: 'profile/:id',
+        element: <User />,
       },
     ],
   },

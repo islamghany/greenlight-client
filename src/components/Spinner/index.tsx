@@ -1,6 +1,13 @@
 import './spinner.css';
 import clxs from 'clsx';
 
+export const InsetSpinner: React.FC<{ show?: boolean }> = ({ show }) => {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center">
+      <Spinner size="lg" show={show} />
+    </div>
+  );
+};
 interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
