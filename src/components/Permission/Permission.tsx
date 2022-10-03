@@ -1,4 +1,5 @@
 import { useAppSelector } from '@/store';
+import { useGetCurrentUserQuery } from '@/store/api';
 import { User } from '@/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { checkPermission } from './checkPermission';
@@ -9,7 +10,7 @@ import {
   Roles,
 } from './permission.types';
 
-type PermissionProps = {
+interface PermissionPropsWrapper {
   children: React.ReactElement;
   noAccess?:
     | React.ReactElement
@@ -21,7 +22,20 @@ type PermissionProps = {
   type?: PermissionType;
   entityOwnerId?: EntityOwnerId;
   debug?: Debug;
+}
+
+const PermissionWrapper = (props: PermissionPropsWrapper) => {
+  const user = useAppSelector((state) => state.user.user);
+  return (
+    <Permission {...props} user={user}>
+      {props.children}
+    </Permission>
+  );
 };
+
+interface PermissionProps extends PermissionPropsWrapper {
+  user: User | undefined;
+}
 const Permission = (props: PermissionProps) => {
   const {
     children,
@@ -30,9 +44,9 @@ const Permission = (props: PermissionProps) => {
     roles = [],
     type = 'one-of',
     debug = false,
+    user,
   } = props;
 
-  const user = useAppSelector((state) => state.user.user);
   const isMounted = useRef<boolean>(false);
   const [hasAccess, setHasAccess] = useState(
     checkPermission(user, roles, { debug, entityOwnerId, type })
@@ -43,7 +57,6 @@ const Permission = (props: PermissionProps) => {
       return;
     }
     let doseUserHasAccess = checkPermission(user, roles, {
-      debug,
       entityOwnerId,
       type,
     });
@@ -60,4 +73,4 @@ const Permission = (props: PermissionProps) => {
   return hasAccess ? children : renderNoAccess() || null;
 };
 
-export default Permission;
+export default PermissionWrapper;

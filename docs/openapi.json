@@ -42,9 +42,7 @@
     },
     "/movies": {
       "get": {
-        "tags": [
-          "movies"
-        ],
+        "tags": ["movies"],
         "description": "obtain movies (filtering)",
         "operationId": "getAllMovies",
         "parameters": [
@@ -128,9 +126,7 @@
         }
       },
       "post": {
-        "tags": [
-          "movies"
-        ],
+        "tags": ["movies"],
         "description": "Create New Movie",
         "operationId": "createMovie",
         "requestBody": {
@@ -176,18 +172,14 @@
         },
         "security": [
           {
-            "movies_auth": [
-              "movies:write"
-            ]
+            "movies_auth": ["movies:write"]
           }
         ]
       }
     },
     "/movies/{id}": {
       "get": {
-        "tags": [
-          "movies"
-        ],
+        "tags": ["movies"],
         "description": "obtain individual movie",
         "operationId": "getMovie",
         "parameters": [
@@ -230,9 +222,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "movies"
-        ],
+        "tags": ["movies"],
         "description": "update Movie",
         "operationId": "updateMovie",
         "parameters": [
@@ -284,16 +274,12 @@
         },
         "security": [
           {
-            "movies_auth": [
-              "movies:write"
-            ]
+            "movies_auth": ["movies:write"]
           }
         ]
       },
       "delete": {
-        "tags": [
-          "movies"
-        ],
+        "tags": ["movies"],
         "description": "delete Movie",
         "operationId": "deleteMovie",
         "parameters": [
@@ -336,18 +322,14 @@
         },
         "security": [
           {
-            "movies_auth": [
-              "movies:write"
-            ]
+            "movies_auth": ["movies:write"]
           }
         ]
       }
     },
     "/most-movies/likes": {
       "get": {
-        "tags": [
-          "movies"
-        ],
+        "tags": ["movies"],
         "description": "get the most liked movies",
         "operationId": "getMostLikedMovies",
         "responses": {
@@ -377,9 +359,7 @@
     },
     "/most-movies/views": {
       "get": {
-        "tags": [
-          "movies"
-        ],
+        "tags": ["movies"],
         "description": "get the most viewd movies",
         "operationId": "getMostViewedMovies",
         "responses": {
@@ -409,9 +389,7 @@
     },
     "/users": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "Retreive the current user data",
         "operationId": "getCurrentUser",
         "responses": {
@@ -439,16 +417,12 @@
         },
         "security": [
           {
-            "movies_auth": [
-              "movies:read"
-            ]
+            "movies_auth": ["movies:read"]
           }
         ]
       },
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "Regisster user",
         "operationId": "registerUser",
         "requestBody": {
@@ -492,9 +466,7 @@
     },
     "/users/{id}": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "Retreive a user with id",
         "operationId": "GetUser",
         "parameters": [
@@ -536,9 +508,7 @@
     },
     "/users/activated": {
       "put": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "active user after a register",
         "operationId": "activateUser",
         "requestBody": {
@@ -588,9 +558,7 @@
     },
     "/tokens/authentication": {
       "post": {
-        "tags": [
-          "tokens"
-        ],
+        "tags": ["tokens"],
         "description": "User login",
         "operationId": "signinUser",
         "requestBody": {
@@ -635,9 +603,7 @@
     },
     "/tokens/reset-password-token": {
       "post": {
-        "tags": [
-          "tokens"
-        ],
+        "tags": ["tokens"],
         "description": "create reset password token",
         "operationId": "createResetPasswordToken",
         "requestBody": {
@@ -677,9 +643,7 @@
     },
     "/users/signout": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "signout user",
         "operationId": "signoutUser",
         "responses": {
@@ -710,9 +674,7 @@
     },
     "/likes/{id}": {
       "get": {
-        "tags": [
-          "likes"
-        ],
+        "tags": ["likes"],
         "description": "get the likes of the specific movie",
         "operationId": "getMovieLikes",
         "parameters": [
@@ -758,9 +720,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "likes"
-        ],
+        "tags": ["likes"],
         "description": "remove a like of the specific movie",
         "operationId": "unlikeMovie",
         "parameters": [
@@ -801,18 +761,14 @@
         },
         "security": [
           {
-            "movies_auth": [
-              "movies:read"
-            ]
+            "movies_auth": ["movies:read"]
           }
         ]
       }
     },
     "/likes": {
       "post": {
-        "tags": [
-          "likes"
-        ],
+        "tags": ["likes"],
         "description": "add a like of the specific movie",
         "operationId": "likeMovie",
         "requestBody": {
@@ -856,9 +812,7 @@
         },
         "security": [
           {
-            "movies_auth": [
-              "movies:read"
-            ]
+            "movies_auth": ["movies:read"]
           }
         ]
       }
@@ -869,9 +823,7 @@
       "EmailObject": {
         "description": "email string inside an object",
         "type": "object",
-        "required": [
-          "email"
-        ],
+        "required": ["email"],
         "properties": {
           "email": {
             "type": "string",
@@ -897,13 +849,7 @@
       "Movie": {
         "description": "model containg the movie schema",
         "type": "object",
-        "required": [
-          "id",
-          "runtime",
-          "year",
-          "genres",
-          "title"
-        ],
+        "required": ["id", "runtime", "year", "genres", "title"],
         "properties": {
           "id": {
             "type": "integer",
@@ -926,10 +872,7 @@
           },
           "genres": {
             "type": "array",
-            "example": [
-              "drama",
-              "romantic"
-            ],
+            "example": ["drama", "romantic"],
             "description": "the categories that the movie belongs",
             "items": {
               "type": "string"

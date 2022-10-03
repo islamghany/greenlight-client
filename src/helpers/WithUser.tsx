@@ -1,16 +1,19 @@
 import Spinner from '@/components/Spinner';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { fetchCurrentUser } from '@/store/slices/userSlice';
+import { useAppDispatch } from '@/store';
+import { useGetCurrentUserQuery } from '@/store/api';
+import { setUser } from '@/store/slices/userSlice';
 import { useEffect } from 'react';
 
 const WithUser = (props: { children: React.ReactNode }) => {
-  const fetchUserStatus = useAppSelector((state) => state.user.fetchUserStatus);
+  const { data, isLoading, error } = useGetCurrentUserQuery();
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, []);
 
-  if (fetchUserStatus === 'PENDING' || fetchUserStatus === 'IDLE') {
+  useEffect(() => {
+    if (typeof data !== 'undefined') {
+      dispatch(setUser(data.user!));
+    }
+  }, [isLoading]);
+  if (isLoading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
         <Spinner size="lg" />

@@ -1,37 +1,32 @@
-import React from 'react';
-import { useApi } from '@/hooks/useApi';
-import api from '@/api';
-import { ActivateUserRequest } from '@/types';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
 import Alert from '@/components/Alert';
 import Spinner from '@/components/Spinner';
-import { useAppDispatch } from '@/store';
-import { setUser } from '@/store/slices/userSlice';
+import { useActivateUserMutation } from '@/store/api';
 
 type ActivateAccountPathProps = {
   token: string;
 };
 
 const ActivateActountSend = (props: ActivateAccountPathProps) => {
-  const dispatch = useAppDispatch();
-  const { error } = useApi(
-    (e: ActivateUserRequest) =>
-      api.usersApi.activateUser(e).then((res) => res.data.user),
-    {
-      enabled: true,
-      enabledData: { token: props.token },
-      onSuccess: (data) => {
-        if (data) dispatch(setUser(data));
-      },
-    }
-  );
+  const [activateUser, { data, isSuccess, isError, error }] =
+    useActivateUserMutation();
 
-  if (error) {
+  useEffect(() => {
+    activateUser({ body: { token: props.token } });
+  }, []);
+
+  if (isError) {
     return (
       <Alert type="error" title="Invalid Token">
-        {error}
+        {error && 'data' in error
+          ? JSON.stringify(error.data)
+          : 'unknown error'}
       </Alert>
     );
+  }
+  if (isSuccess) {
+    return <Navigate to="/" />;
   }
   return (
     <div className="w-full flex justify-center h-full mt-12 items-center">

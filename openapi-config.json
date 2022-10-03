@@ -1,0 +1,9 @@
+{
+  "schemaFile": "./docs/openapi.json",
+  "apiFile": "./src/store/emptyApi.ts",
+  "apiImport": "emptySplitApi",
+  "outputFile": "./src/store/api.ts",
+  "exportName": "api",
+  "hooks": true,
+  "tag": true
+}
