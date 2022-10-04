@@ -1,8 +1,7 @@
-import React from 'react';
-import RenderMovies from './RenderMovies';
+import React from 'react'
 
-import MostLikedMovies from './MostLikedMovies';
-import MostViewedMovies from './MostViewedMovies';
+import MostLikedMovies from './MostLikedMovies'
+import MostViewedMovies from './MostViewedMovies'
 
 export default function Movies() {
   return (
@@ -10,5 +9,5 @@ export default function Movies() {
       <MostLikedMovies />
       <MostViewedMovies />
     </React.Fragment>
-  );
+  )
 }

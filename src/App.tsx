@@ -1,10 +1,9 @@
-import React from 'react';
-import { hot } from 'react-hot-loader';
-import Navigations from '@/navigations';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from '@/store';
-import WithUser from './helpers/WithUser';
+import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import Navigations from '@/navigations'
+import { Provider } from 'react-redux'
+import store from '@/store'
+import WithUser from './helpers/WithUser'
 
 const App = () => {
   return (
@@ -15,7 +14,7 @@ const App = () => {
         </Router>
       </WithUser>
     </Provider>
-  );
-};
+  )
+}
 
-export default hot(module)(App);
+export default App

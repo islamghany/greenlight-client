@@ -1,15 +1,15 @@
-const colors = require('tailwindcss/colors');
+const colors = require("tailwindcss/colors");
 
 module.exports = {
   important: true,
-  purge: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  mode: 'jit',
+  purge: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  mode: "jit",
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       fontFamily: {
-        heading: ['Montserrat', 'sans-serif'],
-        content: ['Nunito', 'sans-serif'],
+        heading: ["Montserrat", "sans-serif"],
+        content: ["Nunito", "sans-serif"],
       },
     },
     colors: {
@@ -19,5 +19,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require("@tailwindcss/forms")],
 };

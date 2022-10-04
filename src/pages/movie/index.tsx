@@ -60,7 +60,7 @@ const ShowMovie: React.FC<{ movie: Movie }> = ({ movie }) => {
   );
 };
 
-export default function Movie() {
+export default function MovieComp() {
   const { id } = useParams<{ id?: string }>();
 
   const { data, isError, isPending, isSuccess, isIdle, error } = useApi(

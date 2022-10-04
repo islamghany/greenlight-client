@@ -1,9 +1,9 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import userSlice from './slices/userSlice';
-import moviesSlices from './slices/moviesSlices';
-import { emptySplitApi } from './emptyApi';
+import { configureStore } from '@reduxjs/toolkit'
+import userSlice from './slices/userSlice'
+import moviesSlices from './slices/moviesSlices'
+import { emptySplitApi } from './emptyApi'
 
-export * from './hooks';
+export * from './hooks'
 
 const store = configureStore({
   reducer: {
@@ -13,8 +13,8 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(emptySplitApi.middleware),
-});
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export default store;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export default store
